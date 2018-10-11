@@ -16,8 +16,6 @@ using namespace std;
 const int MAX_VECTOR_SIZE = 100000000;
 const int MAX_MATRIX_SIZE = 10000;
 
-string exeption = "Data isn't correct";
-
 // Шаблон вектора
 template <class ValType>
 class TVector
@@ -66,7 +64,7 @@ template <class ValType>
 TVector<ValType>::TVector(int s = 10, int si = 0)
 {
 	if (s <= 0 || si < 0 || s > MAX_VECTOR_SIZE)
-		throw exeption;
+		throw "Data isn't correct";
 	Size = s;
 	StartIndex = si;
 	pVector = new ValType[s];
@@ -92,7 +90,7 @@ template <class ValType> // доступ
 ValType& TVector<ValType>::operator[](int pos)
 {
 	if (pos >= StartIndex + Size || pos < 0)
-		throw exeption;
+		throw "Data isn't correct";
 	return pVector[pos - StartIndex];
 } /*-------------------------------------------------------------------------*/
 
@@ -161,7 +159,7 @@ template <class ValType> // сложение
 TVector<ValType> TVector<ValType>::operator+(const TVector<ValType> &v)
 {
 	if (Size != v.Size)
-		throw exeption;
+		throw "Data isn't correct";
 	TVector<ValType> add(Size, StartIndex);
 	for (int i = 0; i < Size; i++)
 		add.pVector[i] = pVector[i] + v.pVector[i];
@@ -173,18 +171,17 @@ template <class ValType> // вычитание
 TVector<ValType> TVector<ValType>::operator-(const TVector<ValType> &v)
 {
 	if (Size != v.Size)
-		throw exeption;
+		throw "Data isn't correct";
 	TVector<ValType> diff(Size, StartIndex);
 	for (int i = 0; i < Size; i++)
 		diff.pVector[i] = pVector[i] - v.pVector[i];
 	return diff;
 } /*-------------------------------------------------------------------------*/
-
 template <class ValType> // скалярное произведение
 ValType TVector<ValType>::operator*(const TVector<ValType> &v)
 {
 	if (Size != v.Size)
-		throw exeption;
+		throw "Data isn't correct";
 	ValType mul = {};
 	for (int i = 0; i < Size; i++)
 		mul += pVector[i] * v.pVector[i];
@@ -228,7 +225,7 @@ template <class ValType>
 TMatrix<ValType>::TMatrix(int s = 10) : TVector< TVector<ValType> >(s)
 {
 	if (s < 0 || s > MAX_MATRIX_SIZE)
-		throw exeption;
+		throw "Data isn't correct";
 	for (int i = 0; i < Size; i++)
 	{
 		TVector<ValType> v(Size - i, i);
@@ -289,7 +286,7 @@ template <class ValType> // сложение
 TMatrix<ValType> TMatrix<ValType>::operator+(const TMatrix<ValType> &mt)
 {
 	if (Size != mt.Size)
-		throw exeption;
+		throw "Data isn't correct";
 	TMatrix<ValType> matrix_add(Size);
 	for (int i = 0; i < Size; i++)
 		matrix_add.pVector[i] = pVector[i] + mt.pVector[i];
@@ -300,7 +297,7 @@ template <class ValType> // вычитание
 TMatrix<ValType> TMatrix<ValType>::operator-(const TMatrix<ValType> &mt)
 {
 	if (Size != mt.Size)
-		throw exeption;
+		throw "Data isn't correct";
 	TMatrix<ValType> matrix_diff(Size);
 	for (int i = 0; i < Size; i++)
 		matrix_diff.pVector[i] = pVector[i] - mt.pVector[i];
